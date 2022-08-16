@@ -1,11 +1,13 @@
 
 const inquirer = require('inquirer')
 const generateHtml = require('./src/teamGenerator')
-const fs = require('fs');   
+const fs = require('fs');
 const Engineer = require('./lib/Engineer');
 const Manager = require('./lib/Manager');
 const Intern = require('./lib/Intern');
 let teamMembers = []
+
+// manager questions
 const managerQuestions = async () => {
     const managerQuestions = await inquirer.prompt([
         {
@@ -32,7 +34,7 @@ const managerQuestions = async () => {
     const { name, id, email, officeNumber } = managerQuestions;
     const manager = new Manager(name, id, email, officeNumber);
     teamMembers.push(manager);
-    console.log(manager.getRole());
+    addAnother()
 };
 
 //engineer questions
@@ -72,34 +74,38 @@ const employeeQuestions = async () => {
             name: 'school',
             message: "enter interns's school",
         },
-            ])
-    let { name, id, email, role, github, school} = employeeQuestions;
+        ])
+    let { name, id, email, role, github, school } = employeeQuestions;
     let employee;
     if (role === 'engineer') {
         employee = new Engineer(name, id, email, github);
         teamMembers.push(employee);
         console.log(employee)
-        return teamMembers;
+        addAnother()
+
     } else if (role === 'intern') {
         employee = new Intern(name, id, email, school);
         teamMembers.push(employee);
         console.log(employee)
-        return teamMembers;
+        addAnother()
     }
 
 }
 
+// asks if they would like to add another team member, if so it runs the employee questions again
 const addAnother = async () => {
     const addAnother = await inquirer.prompt(
-[{
-    type: 'confirm',
-    name: 'addAnother',
-    message: 'would you like to add another team member?',
-    default: 'false'
-}])
-if (addAnother === true) {
-    return employeeQuestions();
-} 
+        [{
+            type: 'confirm',
+            name: 'addAnother',
+            message: 'would you like to add another team member?',
+            default: 'false'
+        }])
+    if (addAnother.addAnother === true) {
+        return employeeQuestions();
+    } else if (addAnother.addAnother === false) {
+        startTeam()
+    }
 }
 
 const init = (data) => {
@@ -108,21 +114,9 @@ const init = (data) => {
     })
 }
 
-startTeam = () => {
-managerQuestions()
-.then(employeeQuestions)
-.then(addAnother)
-.then(
-    teamMembers => {
-    console.log('these are the teamMembers')
-    console.log(teamMembers)
-    return generateHtml(teamMembers)
-}).then(pageHtml => {
-    console.log('this is the page html below ')
-    console.log(pageHtml)
-    return init(pageHtml)
-}).catch(err => {
-    console.log(err)
-})
+// the function that creates everything
+function startTeam() {
+    let newPage = generateHtml(teamMembers)
+    init(newPage)
 }
-startTeam()
+managerQuestions()

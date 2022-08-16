@@ -31,7 +31,7 @@ const engineerCard = (engineer) => {
           </div>
           <div class="card-action">
           <p>email:<a href="mailto:${engineer.email}">${engineer.email}</a></p>
-          <a href="https://github.com/${engineer.github}">my github</a>
+          <a target="_blank" href="https://github.com/${engineer.gitHub}">my github</a>
           </div>
         </div>
       </div>`
@@ -55,6 +55,7 @@ const internCard = (intern) => {
     </div>`
 }
 
+// takes the input passed from the prompts and creates the website
 const generateHTML = (answers) => {
   let managerArray = []
   let employeesArray = []
@@ -80,7 +81,7 @@ const generateHTML = (answers) => {
   
  
     const employeeCards = employeesArray.join('')
-    
+    // the basic template for the site, the individual employee cards get instrted in below 
     const generatePage = (employeesCards) => {
       let newPage = `<!DOCTYPE html>
        <html lang="en">
