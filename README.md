@@ -8,5 +8,5 @@ this is the team profile generator i made, uses inquirer and jest to run tests a
 
 
 
-  [deployed website screenshot](./assets/deployed-team-profile.png)
+  ![deployed website screenshot](./assets/deployed-team-profile.png)
 
