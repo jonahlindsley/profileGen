@@ -80,13 +80,11 @@ const employeeQuestions = async () => {
     if (role === 'engineer') {
         employee = new Engineer(name, id, email, github);
         teamMembers.push(employee);
-        console.log(employee)
         addAnother()
 
     } else if (role === 'intern') {
         employee = new Intern(name, id, email, school);
         teamMembers.push(employee);
-        console.log(employee)
         addAnother()
     }
 
